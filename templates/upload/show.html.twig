@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Upload{% endblock %}
+
+{% block body %}
+    <h1>Upload</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ upload.id }}</td>
+            </tr>
+            <tr>
+                <th>Filename</th>
+                <td>{{ upload.filename }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ upload.createdAt ? upload.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                // affichage de la taille du fichier dynamique, affiche en ko si inférieur à 1Mo en mo si supérieur à 1Go etc...
+                <th>Taille du fichier</th>
+                <td>{{ upload.fileSize | format_bytes }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_upload_index') }}">back to list</a>
+
+    {{ include('upload/_delete_form.html.twig') }}
+{% endblock %}
