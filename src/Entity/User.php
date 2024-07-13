@@ -44,7 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
 
-    #[ORM\OneToMany(targetEntity: Upload::class, mappedBy: 'relation')]
+    #[ORM\OneToMany(targetEntity: Upload::class, mappedBy: 'user')]
     private Collection $uploads;
 
     public function __construct()
@@ -200,7 +200,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->uploads->contains($upload)) {
             $this->uploads->add($upload);
-            $upload->setRelation($this);
+            $upload->setUser($this);
         }
 
         return $this;
@@ -210,8 +210,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->uploads->removeElement($upload)) {
             // set the owning side to null (unless already changed)
-            if ($upload->getRelation() === $this) {
-                $upload->setRelation(null);
+            if ($upload->getUser() === $this) {
+                $upload->setUser(null);
             }
         }
 

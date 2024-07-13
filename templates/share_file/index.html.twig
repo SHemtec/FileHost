@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lien{% endblock %}
+
+{% block body %}
+    <h1>Lien Généré</h1>
+
+    <p>Nom du fichier : {{ upload.fileName }}</p>
+    <p>Taille du fichier : {{ upload.fileSize | format_bytes}}</p>
+
+    <p>Voici votre lien unique pour télécharger le fichier :</p>
+    <p><a href="{{ path('app_download', {'slug': upload.link.slug}) }}">Télécharger le fichier</a></p>
+{% endblock %}

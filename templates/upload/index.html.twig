@@ -3,25 +3,25 @@
 {% block title %}Upload index{% endblock %}
 
 {% block body %}
-    <h1>Upload index</h1>
+    <h1>Bonjour {{ username }}</h1>
 
+    <h2>Vos téléchargements : </h2>
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Filename</th>
-                <th>CreatedAt</th>
+                <th>Nom du fichier</th>
+                <th>Ajouté  le</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for upload in uploads %}
             <tr>
-                <td>{{ upload.id }}</td>
                 <td>{{ upload.filename }}</td>
-                <td>{{ upload.createdAt ? upload.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ upload.createdAt ? upload.createdAt|date('d/m/Y H:i') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_upload_show', {'id': upload.id}) }}">show</a>
+                    <a href="{{ path('app_upload_show', {'id': upload.id, 'username': username}) }}">show</a>
+                    <a href="{{ path('app_dl_link',{'id': upload.id}) }}">Generer un lien</a>
                 </td>
             </tr>
         {% else %}
@@ -32,5 +32,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_upload_new') }}">Create new</a>
+    <a href="{{ path('app_upload_new', {'username': username}) }}">Create new</a>
 {% endblock %}

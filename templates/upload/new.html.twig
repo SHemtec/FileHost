@@ -7,5 +7,5 @@
 
     {{ include('upload/_form.html.twig') }}
 
-    <a href="{{ path('app_upload_index') }}">back to list</a>
+    <a href="{{ path('app_upload_index', {'username': username}) }}">back to list</a>
 {% endblock %}

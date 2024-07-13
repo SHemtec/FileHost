@@ -20,7 +20,7 @@ class Upload
     private ?string $filename = null;
 
     #[ORM\ManyToOne(inversedBy: 'uploads')]
-    private ?User $relation = null;
+    private ?User $user = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -30,6 +30,9 @@ class Upload
 
     #[ORM\Column(nullable: true)]
     private ?int $fileSize = null;
+
+    #[ORM\OneToOne(mappedBy: 'upload', cascade: ['persist', 'remove'])]
+    private ?Link $link = null;
 
     public function __construct()
     {
@@ -53,14 +56,14 @@ class Upload
         return $this;
     }
 
-    public function getRelation(): ?User
+    public function getUser(): ?User
     {
-        return $this->relation;
+        return $this->user;
     }
 
-    public function setRelation(?User $relation): static
+    public function setUser(?User $user): static
     {
-        $this->relation = $relation;
+        $this->user = $user;
 
         return $this;
     }
@@ -97,5 +100,22 @@ class Upload
     public function getFileSize(): ?int
     {
         return $this->fileSize;
+    }
+
+    public function getLink(): ?Link
+    {
+        return $this->link;
+    }
+
+    public function setLink(Link $link): static
+    {
+        // set the owning side of the relation if necessary
+        if ($link->getUpload() !== $this) {
+            $link->setUpload($this);
+        }
+
+        $this->link = $link;
+
+        return $this;
     }
 }
