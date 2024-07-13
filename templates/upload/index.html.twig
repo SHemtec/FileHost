@@ -3,34 +3,47 @@
 {% block title %}Upload index{% endblock %}
 
 {% block body %}
-    <h1>Bonjour {{ username }}</h1>
+    <main class="w-full flex flex-col text-white">
 
-    <h2>Vos téléchargements : </h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom du fichier</th>
-                <th>Ajouté  le</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for upload in uploads %}
-            <tr>
-                <td>{{ upload.filename }}</td>
-                <td>{{ upload.createdAt ? upload.createdAt|date('d/m/Y H:i') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_upload_show', {'id': upload.id, 'username': username}) }}">show</a>
-                    <a href="{{ path('app_dl_link',{'id': upload.id}) }}">Generer un lien</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <section class="w-full flex flex-col items-center">
+            <section class=" w-full flex flex-col items-center overflow-hidden">
+                <table class="w-full">
 
-    <a href="{{ path('app_upload_new', {'username': username}) }}">Create new</a>
+                    <thead class="bg-indigo-800 border-b-2 border-b-violet-400">
+                    <tr class="w-full bg-slate-900">
+                        <th class=""><a class="bg-emerald-500 relative p-4 px-6 rounded-md" href="{{ path('app_upload_new', {'username': username}) }}">Telecharger un fichier</a></th>
+                        <th class="p-8 font-light"> Nombre de fichiers : {{ uploads | length }}</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th class="p-5">Nom du fichier</th>
+                        <th>Ajouté  le</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-indigo-900">
+                    {% for upload in uploads %}
+                        <tr class=" border-b-2 border-b-violet-400">
+                            <td class="text-center py-10">{{ upload.filename }}</td>
+                            <td class="text-center">{{ upload.createdAt ? upload.createdAt|date('d/m/Y H:i') : '' }}</td>
+                            <td class="text-center py-8 flex gap-3 flex-col items-center">
+                                {% if upload.link %}
+                                    <a class="bg-emerald-400 p-2 px-3 rounded-md" href="{{ path('app_download',{'slug': upload.link.slug}) }}">Acceder au lien</a>
+                                {% else %}
+                                    <a class="bg-emerald-400 p-2 px-3 rounded-md" href="{{ path('app_dl_link', {'id': upload.id}) }}">Génerer un lien</a>
+                                {% endif %}
+                                {{ include('upload/_delete_form.html.twig') }}
+
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr class="text-center">
+                            <td colspan="4" class="p-6 text-red-400">Aucun fichier trouvé</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </section>
+    </main>
 {% endblock %}

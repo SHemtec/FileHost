@@ -43,6 +43,14 @@ class UploadController extends AbstractController
         // Récupère les uploads de l'utilisateur
         $uploads = $uploadRepository->findBy(['user' => $user]);
 
+        //recupere les liens des uploads si ils en ont
+        foreach ($uploads as $upload) {
+            $link = $upload->getLink();
+            if ($link) {
+                $links[] = $link;
+            }
+        }
+
         return $this->render('upload/index.html.twig', [
             'uploads' => $uploads,
             'username' => $username,

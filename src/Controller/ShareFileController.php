@@ -53,6 +53,22 @@ class ShareFileController extends AbstractController
             throw $this->createNotFoundException('Aucun fichier trouvé pour ce lien.');
         }
 
+        return $this->render('share_file/index.html.twig', [
+            'upload' => $upload,
+        ]);
+    }
+
+    #[Route('/download/file/{slug}', name: 'app_dl_file')]
+    public function downloadFile(string $slug, LinkRepository $linkRepository): Response
+    {
+        // Récupérer l'entité Upload associée au Link
+        $link = $linkRepository->findOneBy(['slug' => $slug]);
+        $upload = $link->getUpload();
+
+        if (!$upload) {
+            throw $this->createNotFoundException('Aucun fichier trouvé pour ce lien.');
+        }
+
         // Récupérer le chemin absolu du fichier
         $filePath = $this->getParameter('upload_directory') . '/' . $upload->getFileName();
 
@@ -61,10 +77,14 @@ class ShareFileController extends AbstractController
             throw $this->createNotFoundException('Le fichier n\'existe pas.');
         }
 
-        return $this->render('share_file/index.html.twig', [
-            'upload' => $upload,
-            'filePath' => $filePath,
-        ]);
+        // Créer une réponse pour le fichier
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/octet-stream');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . basename($filePath) . '"');
+        $response->headers->set('Content-Length', filesize($filePath));
+        $response->setContent(file_get_contents($filePath));
+
+        return $response;
     }
 
 }

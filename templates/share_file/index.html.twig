@@ -8,6 +8,5 @@
     <p>Nom du fichier : {{ upload.fileName }}</p>
     <p>Taille du fichier : {{ upload.fileSize | format_bytes}}</p>
 
-    <p>Voici votre lien unique pour télécharger le fichier :</p>
-    <p><a href="{{ path('app_download', {'slug': upload.link.slug}) }}">Télécharger le fichier</a></p>
+    <p><a href="{{ path('app_dl_file', {'slug': upload.link.slug}) }}">Télécharger le fichier</a></p>
 {% endblock %}

@@ -30,6 +30,10 @@ class UploadType extends AbstractType
                 'required' => false,
                 'delete_label' => 'Remove file',
                 'download_uri' => false,
+                'label' => false,
+                'attr' => [
+                    'class' => '',
+                ],
             ])
             ->add('user', HiddenType::class, [
                 'label' => false,
