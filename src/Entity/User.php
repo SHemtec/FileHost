@@ -47,6 +47,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Upload::class, mappedBy: 'user')]
     private Collection $uploads;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?UserPicture $userPicture = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -152,6 +155,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function incrementUploadCount(): static
+    {
+        $this->uploadCount++;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -214,6 +224,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $upload->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUserPicture(): ?UserPicture
+    {
+        return $this->userPicture;
+    }
+
+    public function setUserPicture(?UserPicture $userPicture): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($userPicture === null && $this->userPicture !== null) {
+            $this->userPicture->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($userPicture !== null && $userPicture->getUser() !== $this) {
+            $userPicture->setUser($this);
+        }
+
+        $this->userPicture = $userPicture;
 
         return $this;
     }

@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class UploadType extends AbstractType
@@ -32,8 +33,13 @@ class UploadType extends AbstractType
                 'download_uri' => false,
                 'label' => false,
                 'attr' => [
-                    'class' => '',
+                    'class' => 'hidden',
                 ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '100G',
+                    ]),
+                ]
             ])
             ->add('user', HiddenType::class, [
                 'label' => false,

@@ -4,12 +4,17 @@ vich_uploader:
     mappings:
         uploads:
             uri_prefix: /upload
-            upload_destination: '%kernel.project_dir%/public/uploads'
+            upload_destination: '%kernel.project_dir%/public/uploads/'
             namer: Vich\UploaderBundle\Naming\OrignameNamer
 
             inject_on_load: false
             delete_on_update: true
             delete_on_remove: true
+
+        user_picture:
+            uri_prefix: /images/user_pictures
+            upload_destination: '%kernel.project_dir%/public/images/user_pictures'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
     #mappings:
     #    products:

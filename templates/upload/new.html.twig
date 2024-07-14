@@ -5,11 +5,9 @@
 {% block body %}
     <main class="text-white flex flex-col justify-center items-center py-16">
         <section class="flex flex-col items-center border-2 border-violet-400 p-8 gap-4 rounded-2xl">
-            <h1 class="text-5xl my-6 text-white">Telecharger un fichier</h1>
+            <h1 class="text-5xl my-6 text-white mx-4">Telecharger un fichier</h1>
 
             {{ include('upload/_form.html.twig') }}
-
-            <a href="{{ path('app_upload_index', {'username': username}) }}">back to list</a>
         </section>
     </main>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Upload index{% endblock %}
+{% block title %}Mes fichiers{% endblock %}
 
 {% block body %}
     <main class="w-full flex flex-col text-white">
@@ -21,7 +21,7 @@
                         <th>actions</th>
                     </tr>
                     </thead>
-                    <tbody class="bg-indigo-900">
+                    <tbody class="bg-indigo-950">
                     {% for upload in uploads %}
                         <tr class=" border-b-2 border-b-violet-400">
                             <td class="text-center py-10">{{ upload.filename }}</td>

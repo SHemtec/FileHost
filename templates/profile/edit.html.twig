@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification du profile{% endblock %}
+
+{% block body %}
+    <main class="bg-white dark:bg-slate-900 flex justify-center flex-col items-center p-20 w-full">
+        <form method="post" enctype="multipart/form-data" class="xl:w-1/2 sm:w-full flex justify-center items-center flex-col text-indigo-400 gap-6 p-5 border-2 py-16 border-indigo-600 rounded-2xl">
+            <h1 class="text-5xl text-violet-500 my-6">Modification du profile</h1>
+
+            {{ form_row(form._token) }}
+
+            <section class="flex flex-col w-9/12">
+                <label for="username" class="text-violet-400 mx-2 my-3 text-2xl">Nom d'utilisateur</label>
+                {{ form_widget(form.username) }}
+            </section>
+
+            <section class="flex flex-col w-9/12">
+                <label for="email" class="text-violet-400 mx-2 my-3 text-2xl">Email</label>
+                {{ form_widget(form.email) }}
+            </section>
+
+            <section class="flex flex-col w-9/12">
+                <label for="plainPassword" class="text-violet-400 mx-2 my-3 text-2xl">Mot de passe</label>
+                {{ form_widget(form.plainPassword) }}
+            </section>
+
+            <button class="p-3 px-5 bg-violet-600 text-white rounded-md my-6" type="submit">
+                Valider
+            </button>
+        </form>
+    </main>
+{% endblock %}

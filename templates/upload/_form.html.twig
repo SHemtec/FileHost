@@ -1,4 +1,83 @@
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'class': 'flex flex-col items-center cursor-pointer w-5/6', 'id': 'upload-form'}}) }}
+    <label for="upload_file_file" class="p-6 bg-indigo-600 cursor-pointer rounded-md my-4" id="file-label">Choisir un fichier <i class="fas fa-arrow-down text-lg ml-3 mr-2"></i></label>
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Telecharger') }}</button>
+    <div id="progress-container" class="w-full bg-gray-200 rounded-full h-2.5 my-4 mb-8 hidden text-center">
+        <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full" style="width: 0%"></div>
+    </div>
+    <section class="my-3 flex gap-4 items-center w-full justify-center">
+        <button class="btn p-3 px-5 bg-emerald-500 rounded-md disabled:hidden">{{ button_label|default('Envoyer') }} <i class="fas fa-arrow-up ml-2"></i> </button>
+        <a class="p-3 px-5 bg-red-400 rounded-md" href="{{ path('app_upload_index', {'username': username}) }}">Annuler</a>
+    </section>
+
 {{ form_end(form) }}
+<script>
+    const fileInput = document.getElementById('upload_file_file');
+    const fileLabel = document.getElementById('file-label');
+    const form = document.getElementById('upload-form');
+    const submitButton = document.querySelector('.btn');
+    const progressBar = document.getElementById('progress-bar');
+    const progressContainer = document.getElementById('progress-container');
+    const percentLabel = document.createElement('span');
+
+    // Initial setup
+    submitButton.disabled = true;
+    percentLabel.style.display = 'none';
+    percentLabel.classList.add('text-emerald-600', 'text-lg', 'relative', 'top-2');
+    progressContainer.appendChild(percentLabel);
+
+    // Empêcher le comportement par défaut pour les événements dragover et drop
+    form.addEventListener('dragover', function(event) {
+        event.preventDefault();
+    });
+
+    form.addEventListener('drop', function(event) {
+        event.preventDefault();
+        const files = event.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            const fileName = files[0].name;
+            fileLabel.textContent = fileName;
+            submitButton.disabled = false;
+            uploadFile(files[0]);
+        }
+    });
+
+    // Mettre à jour le label et lancer l'upload lors de la sélection de fichier
+    fileInput.addEventListener('change', function(event) {
+        const input = event.target;
+        const fileName = input.files.length > 0 ? input.files[0].name : 'Telecharger un fichier';
+        fileLabel.textContent = fileName;
+        if (input.files.length > 0) {
+            submitButton.disabled = false;
+            uploadFile(input.files[0]);
+        }
+    });
+
+    // Fonction pour gérer l'upload de fichier via AJAX
+    function uploadFile(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.upload.addEventListener('progress', function(e) {
+            if (e.lengthComputable) {
+                const percentComplete = (e.loaded / e.total) * 100;
+                progressBar.style.width = percentComplete + '%';
+                percentLabel.textContent = Math.round(percentComplete) + '%';
+                percentLabel.style.display = 'inline';
+            }
+        });
+
+        xhr.addEventListener('load', function() {
+            if (xhr.status === 200) {
+                percentLabel.textContent = '100%';
+            }
+        });
+
+        xhr.open('POST', form.action, true);
+        xhr.send(formData);
+
+        progressContainer.classList.remove('hidden');
+    }
+</script>

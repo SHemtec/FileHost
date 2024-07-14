@@ -60,7 +60,6 @@ class UploadController extends AbstractController
     #[Route('/add', name: 'app_upload_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-
         // Récupère l'utilisateur connecté
         $user = $this->security->getUser();
 
@@ -79,6 +78,10 @@ class UploadController extends AbstractController
             $userId = $user->getId();
             $UserInstance = $entityManager->getRepository(User::class)->find($userId);
             $upload->setUser($UserInstance);
+
+            // Increment the upload count
+            $UserInstance->incrementUploadCount();
+
             $entityManager->persist($upload);
             $entityManager->flush();
 

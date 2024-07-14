@@ -5,8 +5,11 @@
                 <a href="{{ path('app_index') }}" class="text-white hover:text-indigo-200 transition-colors">Accueil</a>
             </li>
             {% if app.user %}
-                <li class="">
+                <li class="mr-6">
                     <a href="{{ path('app_upload_index', {'username' : app.user.username}) }}" class="text-white hover:text-indigo-200">Mes fichiers</a>
+                </li>
+                <li class="">
+                    <a href="{{ path('app_profile_index')}}" class="text-white hover:text-indigo-200">Profile</a>
                 </li>
                 <li class="lg:flex lg:flex-1 lg:justify-end">
                     <a href="{{ path('app_logout') }}" class="text-white hover:text-gray-200 p-3 bg-indigo-600 rounded-md">Déconnexion <i class="fas fa-arrow-right-from-bracket mx-1"></i></a>

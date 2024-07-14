@@ -27,3 +27,6 @@ services:
     App\Twig\FileSizeExtension:
         tags: [ twig.extension ]
 
+    App\Twig\NamerFilterExtension:
+        tags: [ twig.extension ]
+
