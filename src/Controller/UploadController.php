@@ -133,6 +133,7 @@ class UploadController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$upload->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($upload);
             $entityManager->flush();
+            return $this->redirectToRoute('app_upload_index', ['username' => $username], Response::HTTP_SEE_OTHER);
         }
 
         return $this->redirectToRoute('app_upload_index', ['username' => $username], Response::HTTP_SEE_OTHER);
