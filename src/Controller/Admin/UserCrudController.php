@@ -6,6 +6,7 @@ use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -32,6 +33,7 @@ class UserCrudController extends AbstractCrudController
             IntegerField::new('uploadCount')->setLabel('Nombre de fichiers uploadés'),
             DateField::new('createdAt')->setLabel('Date de création'),
             DateField::new('updatedAt')->setLabel('Date de mise à jour'),
+            BooleanField::new('isValid')->setLabel('Est approuvé'),
             ChoiceField::new('roles')
                 ->setLabel('Rôles')
                 ->setChoices([

@@ -20,7 +20,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -49,6 +49,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserPicture $userPicture = null;
+
+    #[ORM\Column(length: 255, unique: true)]
+    private ?string $token = null;
+
+    #[ORM\Column]
+    private ?bool $isValid = false;
+
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -246,6 +255,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->userPicture = $userPicture;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): static
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function isValid(): ?bool
+    {
+        return $this->isValid;
+    }
+
+    public function setValid(bool $isValid): static
+    {
+        $this->isValid = $isValid;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }

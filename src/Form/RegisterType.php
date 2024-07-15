@@ -22,7 +22,9 @@ class RegisterType extends AbstractType
             ->add('password', TextType::class, [
                 'label' => 'Mot de passe',
             ])
-
+            ->add('description', TextType::class, [
+                'label' => 'Description',
+            ])
         ;
     }
 

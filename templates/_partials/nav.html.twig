@@ -14,6 +14,9 @@
                 <li class="lg:flex lg:flex-1 lg:justify-end">
                     <a href="{{ path('app_logout') }}" class="text-white hover:text-gray-200 p-3 bg-indigo-600 rounded-md">Déconnexion <i class="fas fa-arrow-right-from-bracket mx-1"></i></a>
                 </li>
+                <li class="text-white mx-6 mr-0">
+                    {{ app.user.username }}
+                </li>
             {% else %}
                 <ul class="lg:flex lg:flex-1 lg:justify-end">
                     <li class="mr-6">
