@@ -1,7 +1,108 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Accueil{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+<style>
+    /* Slide-in animation */
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    /* Slide-out animation */
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+
+    .flash-success {
+        animation: slideIn 0.5s forwards;
+    }
+
+    .flash-success.closing {
+        animation: slideOut 0.5s forwards;
+    }
+
+    .flash-error {
+        animation: slideIn 0.5s forwards;
+    }
+
+    .flash-error.closing {
+        animation: slideOut 0.5s forwards;
+    }
+</style>
+{% endblock %}
 
 {% block body %}
+    <main class="overflow-hidden">
+        {% for flash_message in app.flashes('success') %}
+            <div class="flash-success fixed bottom-20 right-10 text-center py-4 lg:px-4">
+                <div class="p-2 bg-emerald-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+                    <span class="flex rounded-full bg-emerald-500 uppercase px-2 py-1 text-xs font-bold mr-3">OK</span>
+                    <span class="font-semibold mr-2 text-left flex-auto">{{ flash_message }}</span>
+                    <svg class="close-btn cursor-pointer fill-current opacity-75 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"/></svg>
+                </div>
+            </div>
+        {% endfor %}
 
+        {% for flash_message in app.flashes('error') %}
+            <div class="flash-error fixed bottom-20 right-10 text-center py-4 lg:px-4">
+                <div class="p-2 bg-red-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+                    <span class="flex rounded-full bg-red-500 uppercase px-2 py-1 text-xs font-bold mr-3">ERREUR</span>
+                    <span class="font-semibold mr-2 text-left flex-auto">{{ flash_message }}</span>
+                    <svg class="close-btn cursor-pointer fill-current opacity-75 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"/></svg>
+                </div>
+            </div>
+        {% endfor %}
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.flash-success').forEach(function(flashMessage) {
+                // Automatically close the flash message after 3 seconds
+                setTimeout(function() {
+                    flashMessage.classList.add('closing');
+                    setTimeout(function() { flashMessage.remove(); }, 500); // Wait for the closing animation to finish
+                }, 3000);
+
+                // Close the flash message when the close button is clicked
+                flashMessage.querySelector('.close-btn').addEventListener('click', function() {
+                    flashMessage.classList.add('closing');
+                    setTimeout(function() { flashMessage.remove(); }, 500); // Use remove() to avoid empty space after animation
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.flash-error').forEach(function(flashMessage) {
+                // Automatically close the flash message after 3 seconds
+                setTimeout(function() {
+                    flashMessage.classList.add('closing');
+                    setTimeout(function() { flashMessage.remove(); }, 500); // Wait for the closing animation to finish
+                }, 3000);
+
+                // Close the flash message when the close button is clicked
+                flashMessage.querySelector('.close-btn').addEventListener('click', function() {
+                    flashMessage.classList.add('closing');
+                    setTimeout(function() { flashMessage.remove(); }, 500); // Use remove() to avoid empty space after animation
+                });
+            });
+        });
+    </script>
 {% endblock %}

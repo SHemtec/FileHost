@@ -56,7 +56,7 @@ class RegisterController extends AbstractController
 
             $entityManager->persist($user);
             if ($this->emailService->sendRegistrationNotification($user)) {
-                $this->addFlash('success', 'Votre demande d\'inscription a bien été envoyée');
+                $this->addFlash('success', 'Votre demande d\'inscription a bien été envoyée !');
                 $entityManager->flush();
             } else {
                 $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de votre demande d\'inscription');

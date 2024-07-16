@@ -4,7 +4,7 @@
 
 {% block body %}
     <main class="bg-white dark:bg-slate-900 flex justify-center flex-col items-center p-20 w-full">
-        <form method="post" class="w-1/2 flex justify-center items-center flex-col text-indigo-400 gap-6 p-5 border-2 py-16 border-indigo-600 rounded-2xl">
+        <form method="post" action="{{ path('app_login_check') }}" class="w-1/2 flex justify-center items-center flex-col text-indigo-400 gap-6 p-5 border-2 py-16 border-indigo-600 rounded-2xl">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
