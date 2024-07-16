@@ -77,22 +77,23 @@ class RegisterController extends AbstractController
         $user = $entityManager->getRepository(User::class)->findOneBy(['token' => $token]);
         if (!$user) {
             // Gérer l'erreur si l'utilisateur n'est pas trouvé
-            throw new RandomException('L\'utilisateur n\'a pas été trouvé');
+            $this->addFlash('error', 'L\'utilisateur n\'a pas été trouvé.');
+            return $this->redirectToRoute('app_index');
         }
 
-        $user->setValid(true);
+        //verifie si l'utilisateur est pas deja validé
+        if ($user->getIsValid()) {
+            $this->addFlash('alert', 'L\'utilisateur a déjà été approuvé.');
+            return $this->redirectToRoute('app_index');
+        }
+
+        $user->setIsValid(true);
         $user->setRoles(['ROLE_UPLOADER']);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_user_approved');
+        $this->addFlash('success', 'Le compte de l\'utilisateur a été approuvé !');
+        return $this->redirectToRoute('app_index');
     }
 
-    #[Route('/approved', name: 'app_user_approved')]
-    public function approve(): Response
-    {
-        return $this->render('register/approved.html.twig', [
-            'controller_name' => 'RegisterController',
-        ]);
-    }
 
 }

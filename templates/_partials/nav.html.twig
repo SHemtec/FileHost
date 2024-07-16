@@ -1,25 +1,30 @@
 <nav class=" border-2 border-transparent border-b-indigo-600 py-4">
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
-        <ul class="flex justify-start items-center">
-            <li class="mr-6">
+        <ul class="flex justify-start gap-6 items-center">
+            <li class="">
                 <a href="{{ path('app_index') }}" class="text-white hover:text-indigo-200 transition-colors">Accueil</a>
             </li>
             {% if app.user %}
-                <li class="mr-6">
+                <li>
                     <a href="{{ path('app_upload_index', {'username' : app.user.username}) }}" class="text-white hover:text-indigo-200">Mes fichiers</a>
                 </li>
-                <li class="">
+                <li>
                     <a href="{{ path('app_profile_index')}}" class="text-white hover:text-indigo-200">Profile</a>
                 </li>
+                {% if 'ROLE_ADMIN' in app.user.roles %}
+                    <li>
+                        <a href="{{ path('admin') }}" class="text-white hover:text-indigo-200 transition-colors">Administration</a>
+                    </li>
+                {% endif %}
                 <li class="lg:flex lg:flex-1 lg:justify-end">
                     <a href="{{ path('app_logout') }}" class="text-white hover:text-gray-200 p-3 bg-indigo-600 rounded-md">Déconnexion <i class="fas fa-arrow-right-from-bracket mx-1"></i></a>
                 </li>
-                <li class="text-white mx-6 mr-0">
+                <li class="text-white mr-0">
                     {{ app.user.username }}
                 </li>
             {% else %}
                 <ul class="lg:flex lg:flex-1 lg:justify-end">
-                    <li class="mr-6">
+                    <li>
                         <a href="{{ path('app_login') }}" class=" lg:flex items-center text-indigo-600 hover:text-gray-200 p-3 px-4 border-2 border-indigo-600 rounded-md">Connexion</a>
                     </li>
                     <li>

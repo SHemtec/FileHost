@@ -52,7 +52,7 @@ class SecurityController extends AbstractController
         }
 
         // Si l'utilisateur existe et le mot de passe est correct, vérifie si l'utilisateur est valide
-        if ($user->isValid()) {
+        if ($user->getIsValid()) {
             $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
             $tokenStorage->setToken($token);
             return $this->redirect('/');

@@ -30,3 +30,6 @@ services:
     App\Twig\NamerFilterExtension:
         tags: [ twig.extension ]
 
+    App\Command\DeleteExpiredFilesCommand:
+        tags: [ 'console.command' ]
+

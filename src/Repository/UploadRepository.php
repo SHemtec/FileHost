@@ -16,6 +16,16 @@ class UploadRepository extends ServiceEntityRepository
         parent::__construct($registry, Upload::class);
     }
 
+    public function countCurrentUploadsByUser($userId): int
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->where('u.user = :user')
+            ->setParameter('user', $userId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     //    /**
     //     * @return Upload[] Returns an array of Upload objects
     //     */

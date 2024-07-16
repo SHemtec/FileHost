@@ -7,3 +7,4 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'flowbite'

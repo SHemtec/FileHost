@@ -2,107 +2,89 @@
 
 {% block title %}Accueil{% endblock %}
 
-{% block stylesheets %}
-    {{ encore_entry_link_tags('app') }}
-<style>
-    /* Slide-in animation */
-    @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-
-    /* Slide-out animation */
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
-
-    .flash-success {
-        animation: slideIn 0.5s forwards;
-    }
-
-    .flash-success.closing {
-        animation: slideOut 0.5s forwards;
-    }
-
-    .flash-error {
-        animation: slideIn 0.5s forwards;
-    }
-
-    .flash-error.closing {
-        animation: slideOut 0.5s forwards;
-    }
-</style>
-{% endblock %}
-
 {% block body %}
     <main class="overflow-hidden">
-        {% for flash_message in app.flashes('success') %}
-            <div class="flash-success fixed bottom-20 right-10 text-center py-4 lg:px-4">
-                <div class="p-2 bg-emerald-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
-                    <span class="flex rounded-full bg-emerald-500 uppercase px-2 py-1 text-xs font-bold mr-3">OK</span>
-                    <span class="font-semibold mr-2 text-left flex-auto">{{ flash_message }}</span>
-                    <svg class="close-btn cursor-pointer fill-current opacity-75 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"/></svg>
-                </div>
-            </div>
-        {% endfor %}
 
-        {% for flash_message in app.flashes('error') %}
-            <div class="flash-error fixed bottom-20 right-10 text-center py-4 lg:px-4">
-                <div class="p-2 bg-red-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
-                    <span class="flex rounded-full bg-red-500 uppercase px-2 py-1 text-xs font-bold mr-3">ERREUR</span>
-                    <span class="font-semibold mr-2 text-left flex-auto">{{ flash_message }}</span>
-                    <svg class="close-btn cursor-pointer fill-current opacity-75 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"/></svg>
+        <div class=" max-w-screen-xl px-4 py-8 mx-auto lg:py-10 l">
+            <span class="text-4xl font-bold">FHost</span>
+        </div>
+
+        <section class=" text-white">
+            <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+                <div class="mr-aut place-self-center lg:col-span-7">
+                    <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">Partage de fichier privé et sécurisé.</h1>
+                    <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Partagez vos fichiers de maniere sécurisée, et avec qui vous voulez grace a la génération de liens.</p>
+                    <a href="{{ path('app_register') }}" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 dark:focus:ring-indigo-900">
+                        Commencer
+                        <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </a>
+                    {% if not app.user %}
+                        <a href="{{ path('app_login') }}" class="text-white inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                            Se connecter
+                        </a>
+                    {% endif %}
+                    {% if app.user %}
+                        <a href="{{ path('app_upload_index', {'username': app.user.username}) }}" class=" inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center  border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                            Accéder à mon espace
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+                    <img src="{{ asset('images/heroBannerImg.png') }}" alt="mockup">
                 </div>
             </div>
-        {% endfor %}
+        </section>
+
+        <section class="">
+            <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+                <div class="max-w-screen-md mb-8 lg:mb-16">
+                    <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Créé pour les particuliers comme vous</h2>
+                    <p class="text-gray-500 sm:text-xl dark:text-gray-400">L'objectif est de vous permettre de partager vos fichiers de maniere sécurisée et privée, sur une plateforme en petit comité pour garantir vitesse et sécurité.</p>
+                </div>
+                <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+                    <div>
+                        <div class="flex text-center justify-center items-center mb-4 w-10 h-10 rounded-full bg-indigo-100 lg:h-12 lg:w-12 dark:bg-indigo-900">
+                            <i class="fa-solid fa-lock text-indigo-600 dark:text-indigo-300"></i>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold dark:text-white">Sécurité</h3>
+                        <p class="text-gray-500 dark:text-gray-400">Vos fichiers sont uniquement accessibles via les liens que vous créez.</p>
+                    </div>
+                    <div>
+                        <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-indigo-100 lg:h-12 lg:w-12 dark:bg-indigo-900">
+                            <i class="fa-solid fa-shield text-indigo-600 dark:text-indigo-300"></i>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold dark:text-white">Confidentialité</h3>
+                        <p class="text-gray-500 dark:text-gray-400">Nous respectons votre vie privée et assurons que vos données restent entre de bonnes mains.</p>
+                    </div>
+                    <div>
+                        <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-indigo-100 lg:h-12 lg:w-12 dark:bg-indigo-900">
+                            <i class="fa-solid fa-share text-indigo-600 dark:text-indigo-300"></i>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold dark:text-white">Partage</h3>
+                        <p class="text-gray-500 dark:text-gray-400">Partagez vos fichiers avec nimporte qui grace a un simple lien qui permet de telecharger d'ou vous voulez.</p>
+                    </div>
+                    <div>
+                        <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-indigo-100 lg:h-12 lg:w-12 dark:bg-indigo-900">
+                            <i class="fa-solid fa-check-circle text-indigo-600 dark:text-indigo-300"></i>d                        </div>
+                        <h3 class="mb-2 text-xl font-bold dark:text-white">Fiabilité</h3>
+                        <p class="text-gray-500 dark:text-gray-400">Notre service est fiable et toujours disponible pour répondre à vos besoins de partage de fichiers.</p>
+                    </div>
+                    <div>
+                        <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-indigo-100 lg:h-12 lg:w-12 dark:bg-indigo-900">
+                            <i class="fa-solid fa-stream text-indigo-600 dark:text-indigo-300"></i>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold dark:text-white">Simplicité</h3>
+                        <p class="text-gray-500 dark:text-gray-400">Une interface simple et intuitive pour faciliter le partage de vos fichiers.</p>
+                    </div>
+                    <div>
+                        <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-indigo-100 lg:h-12 lg:w-12 dark:bg-indigo-900">
+                            <i class="fa-solid fa-headset text-indigo-600 dark:text-indigo-300"></i>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold dark:text-white">Support</h3>
+                        <p class="text-gray-500 dark:text-gray-400">Un support client réactif pour vous aider en cas de besoin.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
-{% endblock %}
-
-{% block javascripts %}
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('.flash-success').forEach(function(flashMessage) {
-                // Automatically close the flash message after 3 seconds
-                setTimeout(function() {
-                    flashMessage.classList.add('closing');
-                    setTimeout(function() { flashMessage.remove(); }, 500); // Wait for the closing animation to finish
-                }, 3000);
-
-                // Close the flash message when the close button is clicked
-                flashMessage.querySelector('.close-btn').addEventListener('click', function() {
-                    flashMessage.classList.add('closing');
-                    setTimeout(function() { flashMessage.remove(); }, 500); // Use remove() to avoid empty space after animation
-                });
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('.flash-error').forEach(function(flashMessage) {
-                // Automatically close the flash message after 3 seconds
-                setTimeout(function() {
-                    flashMessage.classList.add('closing');
-                    setTimeout(function() { flashMessage.remove(); }, 500); // Wait for the closing animation to finish
-                }, 3000);
-
-                // Close the flash message when the close button is clicked
-                flashMessage.querySelector('.close-btn').addEventListener('click', function() {
-                    flashMessage.classList.add('closing');
-                    setTimeout(function() { flashMessage.remove(); }, 500); // Use remove() to avoid empty space after animation
-                });
-            });
-        });
-    </script>
 {% endblock %}

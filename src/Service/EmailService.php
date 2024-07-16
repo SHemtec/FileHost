@@ -34,4 +34,19 @@ class EmailService {
             return false;
         }
     }
+
+    public function sendContactEmail($subject, $email, $message) {
+        $email = (new Email())
+            ->from($email)
+            ->to('contact@sacha-hemon.fr') // Same email as registration notification
+            ->subject($subject)
+            ->html("<p>Message de : {$email}</p><p>Message: {$message}</p>");
+
+        try {
+            $this->mailer->send($email);
+            return true;
+        } catch (TransportExceptionInterface $e) {
+            return false;
+        }
+    }
 }

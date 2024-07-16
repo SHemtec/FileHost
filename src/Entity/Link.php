@@ -16,8 +16,8 @@ class Link
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\OneToOne(inversedBy: 'link', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(inversedBy: 'link')]
+    #[ORM\JoinColumn(name: 'upload_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?Upload $upload = null;
 
     public function getId(): ?int

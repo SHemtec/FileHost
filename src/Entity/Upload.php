@@ -34,6 +34,9 @@ class Upload
     #[ORM\OneToOne(mappedBy: 'upload', cascade: ['persist', 'remove'])]
     private ?Link $link = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $deleteAt = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -117,5 +120,45 @@ class Upload
         $this->link = $link;
 
         return $this;
+    }
+
+    public function getDeleteAt(): ?\DateTime
+    {
+        return $this->deleteAt;
+    }
+
+    public function setDeleteAt(\DateTime $deleteAt): static
+    {
+        $this->deleteAt = $deleteAt;
+
+        return $this;
+    }
+
+    public function calculateAndSetDeleteAt(int $fileSize): void
+    {
+        // Calculer le nombre de jours à ajouter
+        $daysToAdd = $this->calculateDaysToAdd($fileSize);
+        $deleteAt = (new \DateTime())->modify("+$daysToAdd days");
+
+        // Vérifier que la date est valide
+        if ($deleteAt !== false) {
+            $this->deleteAt = $deleteAt;
+        } else {
+            throw new \Exception('Date de suppression invalide calculée.');
+        }
+    }
+
+    private function calculateDaysToAdd(int $fileSize): int
+    {
+        // Convertir la taille du fichier en Go
+        $fileSizeInGB = $fileSize / (1024 * 1024 * 1024);
+
+        // Déterminer le nombre de jours à ajouter en fonction de la taille du fichier
+        if ($fileSizeInGB >= 100) {
+            return 3;
+        }
+
+        // Calculer les jours pour les fichiers plus petits
+        return max(3, min(7, 7 - ceil($fileSizeInGB / 100 * 4)));
     }
 }

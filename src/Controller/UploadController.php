@@ -82,6 +82,16 @@ class UploadController extends AbstractController
             // Increment the upload count
             $UserInstance->incrementUploadCount();
 
+            $upload->setCreatedAt(new \DateTimeImmutable());
+            //recupere la taille, sur la clé de tableau 'file' et l'objet size du tableau
+
+            $uploadedFile = $request->files->get('upload')['file']['file'];
+
+            if ($uploadedFile) {
+                $upload->calculateAndSetDeleteAt($uploadedFile->getSize());
+
+            }
+
             $entityManager->persist($upload);
             $entityManager->flush();
 
@@ -91,26 +101,6 @@ class UploadController extends AbstractController
         return $this->render('upload/new.html.twig', [
             'upload' => $upload,
             'form' => $form,
-            'username' => $username,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_upload_show', methods: ['GET'])]
-    public function show(Upload $upload): Response
-    {
-
-        // Récupère l'utilisateur connecté
-        $user = $this->security->getUser();
-
-        if (!$user) {
-            throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page.');
-        }
-
-        // Récupère le nom d'utilisateur
-        $username = $user->getUsername();
-
-        return $this->render('upload/show.html.twig', [
-            'upload' => $upload,
             'username' => $username,
         ]);
     }

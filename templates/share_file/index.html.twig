@@ -1,15 +1,26 @@
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Téléchargement {{ upload.filename | remove_namer_suffix}}{% endblock %}
 
+{% block navbar %}
+
+{% endblock %}
+
 {% block body %}
     <main class="flex w-full flex-col items-center justify-center py-20 text-white">
 
-        <section class="flex items-center flex-col border-2 border-violet-400 rounded-2xl p-6 gap-4 px-10">
-            <p class="text-2xl text-violet-300">{{ upload.fileName | remove_namer_suffix }}</p>
-            <p class="text-lg">Taille du fichier : <span class="text-emerald-300">{{ upload.fileSize | format_bytes}}</span></p>
+        <section class="flex items-center flex-col border-1 bg-slate-800 border-violet-400 rounded-2xl py-8 gap-4">
+            <p class="text-2xl mx-12 text-indigo-500">{{ upload.fileName | remove_namer_suffix }}</p>
+            <p class="text-lg bg-slate-700 w-full text-center py-1">Taille du fichier : <span class="text-emerald-300">{{ upload.fileSize | format_bytes}}</span></p>
 
-            <a class="p-5 px-6 mx-6 mb-4 my-2 bg-blue-500 text-xl rounded-md" href="{{ path('app_dl_file', {'slug': upload.link.slug}) }}">Télécharger le fichier <i class="fas fa-cloud-arrow-down ml-2"></i> </a>
+            <a class="p-3 px-4 mx-6 mb-4 my-3 bg-indigo-700 text-xl rounded-md" href="{{ path('app_dl_file', {'slug': upload.link.slug}) }}">Télécharger le fichier <i class="fas fa-cloud-arrow-down ml-2"></i> </a>
+
+            <span class="text-gray-500">Hébergé par <a href="{{ path('app_index') }}" class="underline text-indigo-400">FHost</a></span>
         </section>
     </main>
+{% endblock %}
+
+{% block footer %}
+
 {% endblock %}

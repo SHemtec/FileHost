@@ -6,8 +6,15 @@ module.exports = {
     // Ajoutez d'autres chemins selon les besoins
   ],
   theme: {
-    extend: {},
+    extend: {
+      primary: {
+        //definis le primry a indigo
+        DEFAULT: '#5c6ac4',
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
 }
 

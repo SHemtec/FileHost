@@ -271,12 +271,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isValid(): ?bool
+    public function getIsValid(): ?bool
     {
         return $this->isValid;
     }
 
-    public function setValid(bool $isValid): static
+    public function setIsValid(bool $isValid): static
     {
         $this->isValid = $isValid;
 
