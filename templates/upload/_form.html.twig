@@ -19,13 +19,11 @@
     const progressContainer = document.getElementById('progress-container');
     const percentLabel = document.createElement('span');
 
-    // Initial setup
     submitButton.disabled = true;
     percentLabel.style.display = 'none';
     percentLabel.classList.add('text-emerald-600', 'text-lg', 'relative', 'top-2');
     progressContainer.appendChild(percentLabel);
 
-    // Empêcher le comportement par défaut pour les événements dragover et drop
     form.addEventListener('dragover', function(event) {
         event.preventDefault();
     });
@@ -42,7 +40,6 @@
         }
     });
 
-    // Mettre à jour le label et lancer l'upload lors de la sélection de fichier
     fileInput.addEventListener('change', function(event) {
         const input = event.target;
         const fileName = input.files.length > 0 ? input.files[0].name : 'Telecharger un fichier';
@@ -53,7 +50,6 @@
         }
     });
 
-    // Fonction pour gérer l'upload de fichier via AJAX
     function uploadFile(file) {
         const formData = new FormData();
         formData.append('file', file);
@@ -72,6 +68,9 @@
         xhr.addEventListener('load', function() {
             if (xhr.status === 200) {
                 percentLabel.textContent = '100%';
+                alert('File uploaded successfully');
+            } else {
+                alert('File upload failed');
             }
         });
 
