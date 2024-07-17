@@ -123,9 +123,9 @@ class Upload
         return $this;
     }
 
-    public function getDeleteAt(): ?\DateTime
+    public function getDeleteAt(): ?string
     {
-        return $this->deleteAt;
+        return $this->deleteAt?->format('Y-m-d H:i:s');
     }
 
     public function setDeleteAt(\DateTime $deleteAt): static
