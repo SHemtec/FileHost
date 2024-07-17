@@ -87,10 +87,11 @@ class UploadController extends AbstractController
 
             $uploadedFile = $request->files->get('upload')['file']['file'];
 
+            /*
             if ($uploadedFile) {
                 $upload->calculateAndSetDeleteAt($uploadedFile->getSize());
 
-            }
+            }*/
 
             $entityManager->persist($upload);
             $entityManager->flush();
