@@ -39,9 +39,9 @@
                                     </svg>
                                     Actions
                                 </button>
-                                <div id="actionsDropdown" class="hidden z-10 w-44  rounded divide-y divide-gray-100 shadow bg-gray-700 divide-gray-600">
+                                <div id="actionsDropdown" class="hidden z-10 w-44  rounded divide-y shadow bg-slate-700 divide-indigo-600">
                                     <div class="py-1">
-                                        <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:bg-gray-600 text-gray-200 hover:text-white">Tout supprimer</a>
+                                        <a href="#" class="block py-2 px-4 text-sm hover:bg-indigo-600 text-slate-200 hover:text-white">Tout supprimer</a>
                                     </div>
                                 </div>
                             </div>
@@ -71,15 +71,15 @@
                                             <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
                                         </svg>
                                     </button>
-                                    <div id="{{ upload.filename }}-dropdown" class="hidden z-10 w-44  rounded divide-y divide-slate-100 shadow bg-slate-700 divide-slate-600">
+                                    <div id="{{ upload.filename }}-dropdown" class="hidden z-10 w-44  rounded divide-y shadow bg-slate-700 divide-indigo-600">
                                         <ul class="py-1 text-sm text-gray-700 text-gray-200" aria-labelledby="{{ upload.filename }}-dropdown-button">
                                             {% if upload.link %}
                                             <li>
-                                                <a href="{{ path('app_download',{'slug': upload.link.slug}) }}" class="block py-2 px-4 hover:bg-slate-100 hover:bg-indigo-600 hover:text-white">Acceder au lien</a>
+                                                <a href="{{ path('app_download',{'slug': upload.link.slug}) }}" class="block text-slate-200 py-2 px-4 hover:bg-indigo-600 hover:text-white">Acceder au lien</a>
                                             </li>
                                             {% else %}
                                                 <li>
-                                                    <a href="{{ path('app_dl_link', {'id': upload.id}) }}" class="block py-2 px-4 hover:bg-slate-100 hover:bg-indigo-600 hover:text-white">Générer un lien</a>
+                                                    <a href="{{ path('app_dl_link', {'id': upload.id}) }}" class="block py-2 px-4 text-slate-200 hover:bg-indigo-600 hover:text-white">Générer un lien</a>
                                                 </li>
                                             {% endif %}
                                         </ul>
