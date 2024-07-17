@@ -19,11 +19,13 @@
     const progressContainer = document.getElementById('progress-container');
     const percentLabel = document.createElement('span');
 
+    // Initial setup
     submitButton.disabled = true;
     percentLabel.style.display = 'none';
     percentLabel.classList.add('text-emerald-600', 'text-lg', 'relative', 'top-2');
     progressContainer.appendChild(percentLabel);
 
+    // Empêcher le comportement par défaut pour les événements dragover et drop
     form.addEventListener('dragover', function(event) {
         event.preventDefault();
     });
@@ -40,6 +42,7 @@
         }
     });
 
+    // Mettre à jour le label et lancer l'upload lors de la sélection de fichier
     fileInput.addEventListener('change', function(event) {
         const input = event.target;
         const fileName = input.files.length > 0 ? input.files[0].name : 'Telecharger un fichier';
@@ -50,32 +53,48 @@
         }
     });
 
+    // Fonction pour gérer l'upload de fichier via AJAX et le découpage en morceaux de 10MB
     function uploadFile(file) {
-        const formData = new FormData();
-        formData.append('file', file);
+        const chunkSize = 10 * 1024 * 1024; // 10MB
+        const totalChunks = Math.ceil(file.size / chunkSize);
+        let uploadedChunks = 0;
 
-        const xhr = new XMLHttpRequest();
+        for (let i = 0; i < totalChunks; i++) {
+            const start = i * chunkSize;
+            const end = Math.min(start + chunkSize, file.size);
+            const chunk = file.slice(start, end);
 
-        xhr.upload.addEventListener('progress', function(e) {
-            if (e.lengthComputable) {
-                const percentComplete = (e.loaded / e.total) * 100;
-                progressBar.style.width = percentComplete + '%';
-                percentLabel.textContent = Math.round(percentComplete) + '%';
-                percentLabel.style.display = 'inline';
-            }
-        });
+            const formData = new FormData();
+            formData.append('file', chunk);
+            formData.append('chunkIndex', i);
+            formData.append('totalChunks', totalChunks);
+            formData.append('fileName', file.name);
 
-        xhr.addEventListener('load', function() {
-            if (xhr.status === 200) {
-                percentLabel.textContent = '100%';
-                alert('File uploaded successfully');
-            } else {
-                alert('File upload failed');
-            }
-        });
+            const xhr = new XMLHttpRequest();
 
-        xhr.open('POST', form.action, true);
-        xhr.send(formData);
+            xhr.upload.addEventListener('progress', function(e) {
+                if (e.lengthComputable) {
+                    const percentComplete = ((uploadedChunks + e.loaded / e.total) / totalChunks) * 100;
+                    progressBar.style.width = percentComplete + '%';
+                    percentLabel.textContent = Math.round(percentComplete) + '%';
+                    percentLabel.style.display = 'inline';
+                }
+            });
+
+            xhr.addEventListener('load', function() {
+                if (xhr.status === 200) {
+                    uploadedChunks++;
+                    if (uploadedChunks === totalChunks) {
+                        percentLabel.textContent = '100%';
+                    }
+                } else {
+                    console.error(`Error uploading chunk ${i + 1} of ${totalChunks}.`);
+                }
+            });
+
+            xhr.open('POST', form.action, true);
+            xhr.send(formData);
+        }
 
         progressContainer.classList.remove('hidden');
     }
