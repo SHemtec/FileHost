@@ -29,13 +29,13 @@ class Upload
     #[Vich\UploadableField(mapping: 'uploads', fileNameProperty: 'filename', size: 'fileSize')]
     private ?File $file = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?int $fileSize = null;
 
     #[ORM\OneToOne(mappedBy: 'upload', cascade: ['persist', 'remove'])]
     private ?Link $link = null;
 
-    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?\DateTime $deleteAt = null;
 
     public function __construct()
