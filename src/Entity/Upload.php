@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UploadRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -34,7 +35,7 @@ class Upload
     #[ORM\OneToOne(mappedBy: 'upload', cascade: ['persist', 'remove'])]
     private ?Link $link = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?\DateTime $deleteAt = null;
 
     public function __construct()
